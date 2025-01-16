@@ -2,9 +2,9 @@ import React from "react";
 import ActionButton from "./Elements/Button";
 import { clients } from "../data/clients";
 
-const TableList = () => {
+const TableList = ({ handleOpen }) => {
   return (
-    <section className="overflow-x-auto">
+    <section className="overflow-x-auto ">
       <table className="table">
         <thead>
           <tr>
@@ -23,16 +23,18 @@ const TableList = () => {
               <td>{client.job}</td>
               <td>{client.rate}</td>
               <td>
-                <button
-                  className={`btn rounded-full w-20 ${
-                    client.isActive ? `btn-primary` : `btn-outline btn-primary`
-                  }`}
-                >
-                  {client.isActive ? `Active` : `Inactive`}
-                </button>
+                <ActionButton
+                  label={client.isActive ? "Active" : "Inactive"}
+                  type={client.isActive ? "primary" : "outline btn-primary"}
+                  className="rounded-full w-20"
+                />
               </td>
               <td className="space-x-8">
-                <ActionButton label="Update" type="secondary" />
+                <ActionButton
+                  onClick={() => handleOpen("edit")}
+                  label="Update"
+                  type="secondary"
+                />
                 <ActionButton label="Delete" type="accent" />
               </td>
             </tr>

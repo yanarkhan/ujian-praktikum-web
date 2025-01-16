@@ -1,6 +1,6 @@
 import React from "react";
 
-const Navbar = () => {
+const Navbar = ({ whileOpen }) => {
   return (
     <section className="navbar bg-base-100 px-4 py-6 gap-4">
       <div className="navbar-start">
@@ -18,8 +18,13 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end">
-        <a href="" className="btn btn-primary" aria-label="Primary Button">
-          Button
+        <a
+          /* href="/" */
+          className="btn btn-primary"
+          onClick={whileOpen}
+          aria-label="Primary Button"
+        >
+          Add Client
         </a>
       </div>
     </section>
