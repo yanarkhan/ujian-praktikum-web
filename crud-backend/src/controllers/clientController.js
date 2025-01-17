@@ -71,3 +71,48 @@ export const updateClient = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const deleteClient = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "ID is required" });
+    }
+
+    const deletedClient = await clientService.deleteClient(id);
+
+    res.status(200).json({
+      message: "Client deleted successfully",
+      client: deletedClient,
+    });
+  } catch (error) {
+    console.error(`Error deleting client: ${error.message}`);
+
+    if (error.message.includes("not found")) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const searchClient = async (req, res) => {
+  try {
+    const { query } = req.query; // ngambil parameter query dari URL
+    if (!query) {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+
+    const clients = await clientService.searchClient(query);
+
+    if (clients.length === 0) {
+      return res.status(404).json({ message: "No clients found" });
+    }
+
+    res.status(200).json(clients); // data yang cocok
+  } catch (error) {
+    console.error(`Error searching client: ${error.message}`);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

@@ -57,3 +57,42 @@ export const updateClient = async (id, updatedData) => {
     throw new Error(`Error updating client: ${error.message}`);
   }
 };
+
+export const deleteClient = async (id) => {
+  try {
+    const deleteQuery = `
+      DELETE FROM clients_tb
+      WHERE id = $1
+      RETURNING *;
+    `;
+    const result = await query(deleteQuery, [id]);
+
+    if (result.rows.length === 0) {
+      throw new Error(`Client with ID ${id} not found`);
+    }
+
+    return result.rows[0]; // return deleted client
+  } catch (error) {
+    console.error("Error deleting client:", error.message);
+    throw new Error(`Error deleting client: ${error.message}`);
+  }
+};
+
+export const searchClient = async (searchQuery) => {
+  try {
+    const searchSQL = `
+      SELECT * FROM clients_tb
+      WHERE LOWER(name) LIKE LOWER($1) 
+      OR LOWER(email) LIKE LOWER($1) 
+      OR LOWER(job) LIKE LOWER($1);
+    `;
+
+    const values = [`%${searchQuery}%`];
+    const result = await query(searchSQL, values);
+
+    return result.rows;
+  } catch (error) {
+    console.error("Error searching client:", error.message);
+    throw new Error(`Error searching client: ${error.message}`);
+  }
+};
