@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputForm from "./Elements/Input";
 import Select from "./Elements/Select";
 import ActionButton from "./Elements/Button";
 
-const ModalForm = ({ isOpen, onClose, mode, onSubmit }) => {
+const ModalForm = ({ isOpen, onClose, mode, onSubmit, clientData }) => {
   const [rate, setRate] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,13 +12,41 @@ const ModalForm = ({ isOpen, onClose, mode, onSubmit }) => {
 
   // Handle the change of status
   const handleStatusChange = (e) => {
-    setStatus(e.target.value === "Active"); // Set status as boolean
+    setStatus(e.target.value === "Active");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onClose(e);
+    try {
+      const clientData = {
+        name,
+        email,
+        job,
+        rate: Number(rate),
+        isactive: status,
+      };
+      await onSubmit(clientData);
+      onClose();
+    } catch (err) {
+      console.error("Error adding client", err);
+    }
   };
+
+  useEffect(() => {
+    if (mode === "edit" && clientData) {
+      setName(clientData.name);
+      setEmail(clientData.email);
+      setJob(clientData.job);
+      setRate(clientData.rate);
+      setStatus(clientData.isActive);
+    } else {
+      setName("");
+      setEmail("");
+      setJob("");
+      setRate("");
+      setStatus(false);
+    }
+  }, [mode, clientData]);
 
   return (
     <>
@@ -68,12 +96,14 @@ const ModalForm = ({ isOpen, onClose, mode, onSubmit }) => {
               />
             </div>
             <ActionButton
+              choice="button"
               label="✕"
               type="ghost"
               className="btn-sm btn-circle absolute right-2 top-2"
               onClick={onClose}
             />
             <ActionButton
+              choice="submit"
               label={mode === "edit" ? "Save Changes" : "Add Client"}
               type="primary"
             />

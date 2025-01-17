@@ -1,6 +1,10 @@
 import React from "react";
 
-const Navbar = ({ whileOpen }) => {
+const Navbar = ({ whileOpen, onSearch }) => {
+  const handleSearchChange = (event) => {
+    onSearch(event.target.value);
+  };
+
   return (
     <section className="navbar bg-base-100 px-4 py-6 gap-4">
       <div className="navbar-start">
@@ -12,6 +16,7 @@ const Navbar = ({ whileOpen }) => {
           <input
             type="text"
             placeholder="Search"
+            onChange={handleSearchChange}
             className="input input-bordered w-full max-w-md"
           />
         </div>
