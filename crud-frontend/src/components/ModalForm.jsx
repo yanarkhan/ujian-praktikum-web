@@ -50,7 +50,13 @@ const ModalForm = ({ isOpen, onClose, mode, onSubmit }) => {
               onChange={(e) => setJob(e.target.value)}
             />
             <div className="flex mb-4 justify-between">
-              <InputForm label="Rate" type="number" placeholder={"0"} />
+              <InputForm
+                label="Rate"
+                type="number"
+                placeholder={"0"}
+                value={rate}
+                onChange={(e) => setRate(e.target.value)}
+              />
               <Select
                 value={status ? "Active" : "Inactive"}
                 options={[
@@ -69,7 +75,7 @@ const ModalForm = ({ isOpen, onClose, mode, onSubmit }) => {
             />
             <ActionButton
               label={mode === "edit" ? "Save Changes" : "Add Client"}
-              type="success"
+              type="primary"
             />
           </form>
         </div>
