@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import axios from "axios";
 import ActionButton from "./Elements/Button";
 import { clients } from "../data/clients";
@@ -34,7 +34,7 @@ const TableList = ({ handleOpen, tableData, setTableData, searchTerm }) => {
     <>
       {error && <div className="alert alert-error">{error}</div>}
 
-      <section className="overflow-x-auto ">
+      <section className="overflow-x-auto max-w-7xl flex flex-col mx-auto">
         <table className="table">
           <thead>
             <tr>
@@ -47,35 +47,43 @@ const TableList = ({ handleOpen, tableData, setTableData, searchTerm }) => {
             </tr>
           </thead>
           <tbody className="hover">
-            {filteredData.map((client) => (
-              <tr key={client.id}>
-                <td>{client.name}</td>
-                <td>{client.email}</td>
-                <td>{client.job}</td>
-                <td>{client.rate}</td>
-                <td>
-                  <ActionButton
-                    label={client.isActive ? "Active" : "Inactive"}
-                    type={client.isActive ? "primary" : "outline btn-primary"}
-                    className="rounded-full w-20"
-                  />
-                </td>
-                <td className="space-x-8">
-                  <ActionButton
-                    onClick={() => handleOpen("edit", client)}
-                    label="Update"
-                    type="secondary"
-                    choice="btn"
-                  />
-                  <ActionButton
-                    onClick={() => handleDelete(client.id)}
-                    label="Delete"
-                    type="accent"
-                    choice="btn"
-                  />
-                </td>
-              </tr>
-            ))}
+            {filteredData.map((client) => {
+              return (
+                <>
+                  <tr key={client.id}>
+                    <td>{client.name}</td>
+                    <td>{client.email}</td>
+                    <td>{client.job}</td>
+                    <td>{client.rate}</td>
+                    <td>
+                      <ActionButton
+                        label={client.isactive ? "Active" : "Inactive"}
+                        type={
+                          client.isactive
+                            ? "primary"
+                            : "outline border border-primary"
+                        }
+                        className="rounded-full w-20"
+                      />
+                    </td>
+                    <td className="space-x-8">
+                      <ActionButton
+                        onClick={() => handleOpen("edit", client)}
+                        label="Update"
+                        type="secondary"
+                        choice="btn"
+                      />
+                      <ActionButton
+                        onClick={() => handleDelete(client.id)}
+                        label="Delete"
+                        type="accent"
+                        choice="btn"
+                      />
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
           </tbody>
         </table>
       </section>
