@@ -4,7 +4,6 @@ import ActionButton from "./Elements/Button";
 import { clients } from "../data/clients";
 
 const TableList = ({ handleOpen, tableData, setTableData, searchTerm }) => {
-  const [error, setError] = useState(null);
 
   // filter tableData berdasarkan si search term
   const filteredData = tableData.filter(
@@ -37,16 +36,16 @@ const TableList = ({ handleOpen, tableData, setTableData, searchTerm }) => {
       <section className="overflow-x-auto max-w-7xl flex flex-col mx-auto">
         <table className="table">
           <thead>
-            <tr>
-              <th></th>
+            <tr className="text-center">
               <th>Name</th>
               <th>Email</th>
               <th>Job</th>
               <th>Rate</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
-          <tbody className="hover">
+          <tbody className="hover text-center">
             {filteredData.map((client) => {
               return (
                 <>

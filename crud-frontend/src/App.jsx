@@ -10,6 +10,7 @@ function App() {
   const [clientData, setClientData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [tableData, setTableData] = useState([]);
+  const [error, setError] = useState(null);
 
   const fetchClients = async () => {
     try {
